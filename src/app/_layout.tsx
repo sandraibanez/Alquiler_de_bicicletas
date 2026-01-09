@@ -14,6 +14,11 @@ export default function RootLayout() {
       />
 
       <Stack.Screen
+        name="perfil/crear"
+        options={{ title: 'Detalle Empleado' }}
+      />
+
+      <Stack.Screen
         name="modal"
         options={{
           presentation: 'modal',

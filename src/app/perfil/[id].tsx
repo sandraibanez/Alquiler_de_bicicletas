@@ -9,18 +9,24 @@ import {
 import { useLocalSearchParams, Stack, Link, useFocusEffect } from "expo-router";
 import type { Empleado } from "../../types/Empleado";
 import { obtenerEmpleadoPorId } from "../../services/empleadoService";
+import { obtenerClientePorId } from "../../services/clienteService";
+import { Cliente } from "../../types/types";
 
 export default function PerfilDetalle() {
   const { id } = useLocalSearchParams<{ id?: string | string[] }>();
-  const [empleado, setEmpleado] = useState<Empleado | null>(null);
+  // const [empleado, setEmpleado] = useState<Empleado | null>(null);
+  const [cliente, setCliente] = useState<Cliente | null>(null);
   const [cargando, setCargando] = useState(true);
 
   const obtenerDetalle = useCallback(async () => {
     const idStr = Array.isArray(id) ? id[0] : id;
     if (!idStr) return;
     setCargando(true);
-    const data = await obtenerEmpleadoPorId(idStr);
-    setEmpleado(data ? { ...data } : null);
+    // const data = await obtenerEmpleadoPorId(idStr);
+    const data = await obtenerClientePorId(idStr);
+    // setEmpleado(data ? { ...data } : null);
+    setCliente(data ?? null);
+
     setCargando(false);
   }, [id]);
 
@@ -38,26 +44,26 @@ export default function PerfilDetalle() {
     );
   }
 
-  if (!empleado) {
+  if (!cliente) {
     return (
       <View style={styles.center}>
-        <Text>Empleado no encontrado</Text>
+        <Text>Cliente no encontrado</Text>
       </View>
     );
   }
 
   return (
     <View style={styles.container}>
-      <Stack.Screen options={{ title: empleado.nombre }} />
+      <Stack.Screen options={{ title: cliente.nombre }} />
 
-      <View style={[styles.header, { backgroundColor: empleado.avatarColor }]}>
-        <Text style={styles.initials}>{empleado.nombre.charAt(0)}</Text>
+      <View style={[styles.header]}>
+        <Text style={styles.initials}>{cliente.nombre.charAt(0)}</Text>
       </View>
 
       <View style={styles.body}>
-        <Text style={styles.name}>{empleado.nombre}</Text>
+        <Text style={styles.name}>{cliente.nombre}</Text>
         <Text style={styles.role}>
-          {empleado.puesto} — {empleado.departamento}
+          {cliente.email} — {cliente.telefono} - {cliente.notas}
         </Text>
 
         <View style={styles.divider} />
@@ -66,17 +72,17 @@ export default function PerfilDetalle() {
         <Text
           style={[
             styles.value,
-            { color: empleado.estado === "Activo" ? "green" : "red" },
+            { color: cliente.activo === "Activo" ? "green" : "red" },
           ]}
         >
-          {empleado.estado}
+          {cliente.activo}
         </Text>
 
         <View style={styles.actionContainer}>
           <Link
             href={{
               pathname: "/modal",
-              params: { nombre: empleado.nombre, id: empleado.id },
+              params: { nombre: cliente.nombre, id: cliente.id },
             }}
             asChild
           >

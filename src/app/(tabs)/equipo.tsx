@@ -2,10 +2,13 @@ import { useEffect, useState } from 'react';
 import { View, Text, FlatList, Pressable, StyleSheet, ActivityIndicator } from 'react-native';
 import { Link } from 'expo-router';
 import { Empleado } from '../../types/Empleado';
+import { Cliente } from '../../types/types';
 import { obtenerEmpleados } from '../../services/empleadoService';
+import { obtenerCliente } from '../../services/clienteService';
 
 export default function EquipoScreen() {
   const [empleados, setEmpleados] = useState<Empleado[]>([]);
+  const [clientes, setClientes] = useState<Cliente[]>([]);
   const [cargando, setCargando] = useState(true);
 
   useEffect(() => {
@@ -14,10 +17,10 @@ export default function EquipoScreen() {
 
   const cargarDatos = async () => {
     try {
-      const data = await obtenerEmpleados();
-      setEmpleados(data);
+      const data = await obtenerCliente();
+      setClientes(data);
     } catch (error) {
-      console.error('Error cargando empleados', error);
+      console.error('Error cargando Clientes', error);
     } finally {
       setCargando(false);
     }
@@ -35,24 +38,37 @@ export default function EquipoScreen() {
   return (
     <View style={styles.container}>
       <FlatList
-        data={empleados}
+        data={clientes}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <Link href={`/perfil/${item.id}`} asChild>
             <Pressable style={styles.card}>
-              <View style={[styles.avatar, { backgroundColor: item.avatarColor }]}>
+              {/* { backgroundColor: item.avatarColor } */}
+              <View style={[styles.avatar,]}>
                 <Text style={styles.avatarText}>
                   {item.nombre.charAt(0)}
                 </Text>
               </View>
               <View>
                 <Text style={styles.nombre}>{item.nombre}</Text>
-                <Text style={styles.puesto}>{item.puesto}</Text>
+                <Text style={styles.nombre}>{item.telefono}</Text>
+                <Text style={styles.nombre}>{item.email}</Text>
+                {/* <Text style={styles.puesto}>{item.puesto}</Text> */}
               </View>
             </Pressable>
           </Link>
         )}
       />
+      <Link
+        href={{
+          pathname: "/perfil/crear",
+        }}
+        asChild
+      >
+        <Pressable>
+          <Text style={styles.nombre}>📝 crear cliente</Text>
+        </Pressable>
+      </Link>
     </View>
   );
 }

@@ -1,47 +1,50 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
-import { EstadoEmpleado } from "../types/Empleado";
-import { activo } from "../types/types";
-import { updateEstadoEmpleado } from "../services/empleadoService";
-import { eliminarClientePorId, updateCliente } from "../services/clienteService";
+import { CreateCliente } from "../../services/clienteService";
+import { email } from "zod/v4-mini";
+import { Controller } from "react-hook-form";
+import { CreateFrom } from "../../schemas/CreateForm";
 export default function ModalScreen() {
-  const { nombre, id } = useLocalSearchParams<{
-    nombre: string;
-    id: string;
-  }>();
+//   const { nombre, id, email, telefono } = useLocalSearchParams<{
+//     nombre: string;
+//     id: string;
+//     email: string;
+//     telefono: string;
+//   }>();
   const router = useRouter();
 
-  const handleUpdate = async (nuevoEstado: activo) => {
-    await updateCliente(id, nuevoEstado);
-    
-    if (nuevoEstado == "Baja"){
-      await eliminarClientePorId(id);
-    }
+  const handleCreate = (p0: string) => {
+   
+    //    CreateCliente(id, nombre, telefono, email,"Activo" );
+  
     router.back();
   };
 
  
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Gestionar a {nombre}</Text>
 
-      <Pressable
+      <CreateFrom />
+      {/* <Text style={styles.title}>Gestionar a {nombre}</Text> */}
+
+      {/* <Pressable
         style={[styles.btn, { backgroundColor: "#dcfce7" }]}
-        onPress={() => handleUpdate("Activo")}
+        onPress={() => handleCreate("Activo")}
       >
         <Text style={styles.btnText}>🟢 Marcar como ACTIVO</Text>
       </Pressable>
 
       <Pressable
         style={[styles.btn, { backgroundColor: "#fee2e2" }]}
-        onPress={() => handleUpdate("Baja")}
+        onPress={() => handleCreate("Baja")}
       >
         <Text style={styles.btnText}>🔴 Dar de BAJA</Text>
       </Pressable>
 
       <Pressable style={{ marginTop: 20 }} onPress={() => router.back()}>
         <Text style={{ color: "blue" }}>Cancelar</Text>
-      </Pressable>
+      </Pressable> */}
+
     </View>
   );
 }
