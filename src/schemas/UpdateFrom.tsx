@@ -290,7 +290,8 @@ export function UpdateFrom({ id_user }: UpdateClientFormProps) {
           await eliminarClientePorId(id_user);
         }
 
-        router.back();
+        // router.back();
+        router.replace('/(tabs)/equipo');
       } catch (error) {
         console.error(error);
         Alert.alert("Error", "No se pudo actualizar el cliente");

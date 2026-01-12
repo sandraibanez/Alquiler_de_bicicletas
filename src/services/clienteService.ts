@@ -4,7 +4,7 @@ export const obtenerCliente = (): Promise<Cliente[]> => {
     return new Promise((resolve) => {
         setTimeout(() => {
             resolve(listClientes());
-        }, 150);
+        }, 1500);
     });
 };
 

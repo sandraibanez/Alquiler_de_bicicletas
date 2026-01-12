@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { View, Text, FlatList, Pressable, StyleSheet, ActivityIndicator } from 'react-native';
-import { Link } from 'expo-router';
+import { Link, useFocusEffect } from 'expo-router';
 import { Empleado } from '../../types/Empleado';
 import { Cliente } from '../../types/types';
-import { obtenerEmpleados } from '../../services/empleadoService';
 import { obtenerCliente } from '../../services/clienteService';
 
 export default function EquipoScreen() {
@@ -11,20 +10,28 @@ export default function EquipoScreen() {
   const [clientes, setClientes] = useState<Cliente[]>([]);
   const [cargando, setCargando] = useState(true);
 
-  useEffect(() => {
+  useEffect(()=>{
     cargarDatos();
-  }, []);
+  },[])
+  useFocusEffect(
+      useCallback(() => {
+        cargarDatos();
+      }, [])
+    );
 
-  const cargarDatos = async () => {
-    try {
-      const data = await obtenerCliente();
-      setClientes(data);
-    } catch (error) {
-      console.error('Error cargando Clientes', error);
-    } finally {
-      setCargando(false);
-    }
-  };
+    const cargarDatos = async () => {
+      try {
+        const data = await obtenerCliente();
+        setClientes(data);
+      } catch (error) {
+        console.error('Error cargando Clientes', error);
+      } finally {
+        setCargando(false);
+      }
+    };
+
+   
+
 
   if (cargando) {
     return (
