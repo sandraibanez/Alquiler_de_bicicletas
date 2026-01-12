@@ -39,7 +39,7 @@ export function SimpleForm({ user_logger }: SimpleFormProps) {
 
   interface MaterialInputProps {
   label: string;
-  value: string;
+  value: string | undefined;
   onChange: (text: string) => void;
   onBlur?: () => void;
   light?: boolean;

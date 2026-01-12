@@ -4,6 +4,7 @@ import { EstadoEmpleado } from "../types/Empleado";
 import { activo } from "../types/types";
 import { updateEstadoEmpleado } from "../services/empleadoService";
 import { eliminarClientePorId, updateCliente } from "../services/clienteService";
+import { UpdateFrom } from "../schemas/UpdateFrom";
 export default function ModalScreen() {
   const { nombre, id } = useLocalSearchParams<{
     nombre: string;
@@ -12,7 +13,7 @@ export default function ModalScreen() {
   const router = useRouter();
 
   const handleUpdate = async (nuevoEstado: activo) => {
-    await updateCliente(id, nuevoEstado);
+    await updateCliente(id, "", "", "", "" ,nuevoEstado);
     
     if (nuevoEstado == "Baja"){
       await eliminarClientePorId(id);
@@ -24,7 +25,9 @@ export default function ModalScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Gestionar a {nombre}</Text>
-
+      <UpdateFrom id_user={id}></UpdateFrom>
+      
+{/* 
       <Pressable
         style={[styles.btn, { backgroundColor: "#dcfce7" }]}
         onPress={() => handleUpdate("Activo")}
@@ -39,9 +42,11 @@ export default function ModalScreen() {
         <Text style={styles.btnText}>🔴 Dar de BAJA</Text>
       </Pressable>
 
+      
+
       <Pressable style={{ marginTop: 20 }} onPress={() => router.back()}>
         <Text style={{ color: "blue" }}>Cancelar</Text>
-      </Pressable>
+      </Pressable> */}
     </View>
   );
 }

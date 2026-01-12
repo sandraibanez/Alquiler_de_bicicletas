@@ -4,7 +4,7 @@ export const obtenerCliente = (): Promise<Cliente[]> => {
     return new Promise((resolve) => {
         setTimeout(() => {
             resolve(listClientes());
-        }, 1500);
+        }, 150);
     });
 };
 
@@ -18,24 +18,26 @@ export const obtenerClientePorId = (id: string): Promise<Cliente | undefined> =>
 };
 
 export const updateCliente = (
-    id: String,
-    // nuevoNombre: nombre,
-    // nuevoTelefono: telefono,
-    // nuevoEmail: email,
-    // nuevaNotas: notas,
+    id: string,
+    nuevoNombre: nombre,
+    nuevoTelefono: telefono,
+    nuevoEmail: email,
+    nuevaNotas: notas,
     nuevoActivo: activo,
 ): Promise<Cliente | undefined> => {
     return new Promise((resolve) => {
+        console.log("update");
+        
         setTimeout(() => {
-            const cliente = clientes.find((e) => e.id === id);
-            if (cliente) {
-                // cliente.nombre = nuevoNombre;
-                // cliente.telefono = nuevoTelefono;
-                // cliente.email = nuevoEmail;
-                // cliente.notas = nuevaNotas;
-                cliente.activo = nuevoActivo;
+            const clienteActualizado = clientes.find((e) => e.id === id);
+            if (clienteActualizado) {
+                clienteActualizado.nombre = nuevoNombre;
+                clienteActualizado.telefono = nuevoTelefono;
+                clienteActualizado.email = nuevoEmail;
+                clienteActualizado.notas = nuevaNotas;
+                clienteActualizado.activo = nuevoActivo;
             }
-            resolve(cliente);
+            resolve(clienteActualizado);
         }, 1000);
     });
 };

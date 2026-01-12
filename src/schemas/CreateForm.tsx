@@ -1,7 +1,7 @@
 import { View, TextInput, Button, Alert, Text, StyleSheet } from "react-native";
-import { useForm, Controller, SubmitHandler } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod"; // ⬅️ Importamos el resolver
-import { AuthFormValues, AuthSchema } from "./auth.schema";// ⬅️ Importamos el esquema y el tipo
+import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { AuthFormValues, AuthSchema } from "./auth.schema";
 import { useRouter } from "expo-router";
 import React from "react";
 import { colors } from "../constants";
@@ -15,56 +15,33 @@ export function CreateFrom() {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<AuthFormValues>({ // Usamos el tipo extraído de Zod
-    // Clave de la integración: Pasamos el esquema Zod al resolver
+  } = useForm<AuthFormValues>({ 
     resolver: zodResolver(AuthSchema),
     defaultValues: {
       email: "",
       nameUser: "",
       phone: ""
     },
-    mode: "onBlur", // Modo de validación
-    // shouldUnregister: true,
+    mode: "onBlur", 
+    shouldUnregister: true,
   });
 
-//   const onSubmit = (data: AuthFormValues) => {
-//     console.log("hola2");
-    
-//     // Si llegamos aquí, ¡los datos ya han pasado TODAS las validaciones de Zod!
-//     // Alert.alert("Formulario enviado", `Email: ${data.email} | name: ${data.name} | phone: ${data.phone}`);
-//     // CreateCliente(data.email, data.name ?? "", data.phone ?? "", "Activo");
-//     // router.replace('/(tabs)/equipo');
-//   };
-
-const onSubmit: SubmitHandler<AuthFormValues> = async (data) => {
-  try {
-    console.log("hola");
-    
-    await CreateCliente(data.nameUser ?? "", data.phone ?? "", data.email ?? "", "Activo");
-    Alert.alert("¡Creado!", `Cliente ${data.nameUser} creado correctamente`);
+  const onSubmit = (data: AuthFormValues) => {
+    Alert.alert("Formulario enviado", `Email: ${data.email} | name: ${data.nameUser} | phone: ${data.phone}`);
+    CreateCliente(data.email, data.nameUser ?? "", data.phone ?? "", "Activo");
     router.replace('/(tabs)/equipo');
-  } catch (error) {
-    console.error(error);
-    Alert.alert("Error", "No se pudo crear el cliente");
-  }
-};
-
-
-
-
+  };
 
   /* ---------- COMPONENTS ---------- */
-
- 
-
+  
   interface MaterialInputProps {
   label: string;
   value: string | undefined;
   onChange: (text: string) => void;
   onBlur?: () => void;
   light?: boolean;
-//   secureTextEntry?: boolean;
-//   keyboardType?: "default" | "email-address" ;
+  secureTextEntry?: boolean;
+  keyboardType?: "default" | "email-address" ;
 }
 
 const MaterialInput = ({
@@ -73,8 +50,8 @@ const MaterialInput = ({
   value,
   onChange,
   onBlur,
-//   secureTextEntry = false,
-//   keyboardType = "default",
+  secureTextEntry = false,
+  keyboardType = "default",
 }: MaterialInputProps) => (
   <View style={styles.inputContainer}>
     <Text style={[styles.label, light && styles.lightText]}>
@@ -87,8 +64,8 @@ const MaterialInput = ({
       onChangeText={onChange}
       onBlur={onBlur}
       autoCapitalize="none"
-    //   secureTextEntry={secureTextEntry}
-    //   keyboardType={keyboardType}
+      secureTextEntry={secureTextEntry}
+      keyboardType={keyboardType}
       accessibilityLabel={label}
     />
 
@@ -113,7 +90,7 @@ const MaterialInput = ({
                 value={value}
                 onChange={onChange}
                 onBlur={onBlur}
-                // keyboardType="email-address"
+                keyboardType="email-address"
               />
 
             )}
@@ -157,8 +134,6 @@ const MaterialInput = ({
             <Text style={styles.errorText}>{errors.phone.message}</Text>
           ) : null}
         </View>
-
-      {/* <Button title="Crear" onPress={handleSubmit(onSubmit)} /> */}
       <Button title="Crear" onPress={handleSubmit(onSubmit)} />
     </View>
   );

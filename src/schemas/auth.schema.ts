@@ -8,9 +8,10 @@ export const AuthSchema = z.object({
     })
     .min(8, "La contraseña debe tener al menos 8 caracteres") // Agregamos una regla de longitud mínima
     .regex(/[A-Z]/, "Debe incluir al menos una mayúscula")
-    .regex(/[0-9]/, "Debe incluir al menos un número"),
+    .regex(/[0-9]/, "Debe incluir al menos un número").optional(),
   nameUser: z.string().optional(),
   phone: z.string().optional(),
+  notas: z.string().optional(),
 
 });
 
