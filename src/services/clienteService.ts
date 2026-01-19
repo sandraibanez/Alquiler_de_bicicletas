@@ -26,14 +26,16 @@ export const updateCliente = (
     nuevoActivo: activo,
 ): Promise<Cliente | undefined> => {
     return new Promise((resolve) => {
+        console.log("update");
+        
         setTimeout(() => {
             const clienteActualizado = clientes.find((e) => e.id === id);
             if (clienteActualizado) {
-                clienteActualizado.nombre ?? nuevoNombre;
-                clienteActualizado.telefono ?? nuevoTelefono;
-                clienteActualizado.email ?? nuevoEmail;
-                clienteActualizado.notas ?? nuevaNotas;
-                clienteActualizado.activo ?? nuevoActivo;
+                clienteActualizado.nombre = nuevoNombre;
+                clienteActualizado.telefono = nuevoTelefono;
+                clienteActualizado.email = nuevoEmail;
+                clienteActualizado.notas = nuevaNotas;
+                clienteActualizado.activo = nuevoActivo;
             }
             resolve(clienteActualizado);
         }, 1000);

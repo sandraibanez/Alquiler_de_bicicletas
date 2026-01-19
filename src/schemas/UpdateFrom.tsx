@@ -16,7 +16,6 @@ import {
 } from "../services/clienteService";
 import { activo } from "../types/types";
 import { updateFromStyle } from "../style/schemasStyle";
-
 interface UpdateClientFormProps {
   id_user: string;
 }
@@ -42,6 +41,8 @@ export function UpdateFrom({ id_user }: UpdateClientFormProps) {
   const submitWithEstado = (estado: activo) =>
     handleSubmit(async (data) => {
       try {
+        console.log("boton actualizar");
+
         await updateCliente(
           id_user,
           data.nameUser ?? "",
