@@ -8,9 +8,19 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="equipo"
         options={{
-          title: 'Directorio',
+          title: 'Listado de clientes',
           tabBarIcon: ({ color }) => (
              <FontAwesome name="users" size={20} color={color} />
+          ),
+        }}
+      />
+
+       <Tabs.Screen
+        name="crear"
+        options={{
+          title: 'crear de clientes',
+          tabBarIcon: ({ color }) => (
+             <FontAwesome name="plus" size={20} color={color} />
           ),
         }}
       />

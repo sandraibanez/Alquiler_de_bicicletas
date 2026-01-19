@@ -6,6 +6,7 @@ import { useRouter } from "expo-router";
 import React from "react";
 import { colors } from "../constants";
 import { CreateCliente } from "../services/clienteService";
+import { createFromStyle } from "../style/schemasStyle";
 
 export function CreateFrom() {
 
@@ -53,13 +54,13 @@ const MaterialInput = ({
   secureTextEntry = false,
   keyboardType = "default",
 }: MaterialInputProps) => (
-  <View style={styles.inputContainer}>
-    <Text style={[styles.label, light && styles.lightText]}>
+  <View style={createFromStyle.inputContainer}>
+    <Text style={[createFromStyle.label, light && createFromStyle.lightText]}>
       {label}
     </Text>
 
     <TextInput
-      style={[styles.input, light && styles.lightInput]}
+      style={[createFromStyle.input, light && createFromStyle.lightInput]}
       value={value}
       onChangeText={onChange}
       onBlur={onBlur}
@@ -69,7 +70,7 @@ const MaterialInput = ({
       accessibilityLabel={label}
     />
 
-    <View style={[styles.bar, light && styles.lightBar]} />
+    <View style={[createFromStyle.bar, light && createFromStyle.lightBar]} />
   </View>
 );
 
@@ -77,13 +78,12 @@ const MaterialInput = ({
 
 
   return (
-    <View style={styles.container}>
+    <View style={createFromStyle.container}>
       
         <View>
           <Controller
             control={control}
             name="email"
-            // ❌ ¡Quitamos las rules! Zod las gestiona.
             render={({ field: { value, onChange, onBlur } }) => (
               <MaterialInput
                 label="Email"
@@ -95,7 +95,7 @@ const MaterialInput = ({
 
             )}
           />
-          {errors.email?.message ? <Text style={styles.errorText}>{errors.email.message}</Text> : null}
+          {errors.email?.message ? <Text style={createFromStyle.errorText}>{errors.email.message}</Text> : null}
 
           <Controller
             control={control}
@@ -112,7 +112,7 @@ const MaterialInput = ({
             )}
           />
           {errors.nameUser?.message ? (
-            <Text style={styles.errorText}>{errors.nameUser.message}</Text>
+            <Text style={createFromStyle.errorText}>{errors.nameUser.message}</Text>
           ) : null}
 
           <Controller
@@ -131,7 +131,7 @@ const MaterialInput = ({
             )}
           />
           {errors.phone?.message ? (
-            <Text style={styles.errorText}>{errors.phone.message}</Text>
+            <Text style={createFromStyle.errorText}>{errors.phone.message}</Text>
           ) : null}
         </View>
       <Button title="Crear" onPress={handleSubmit(onSubmit)} />
@@ -139,46 +139,4 @@ const MaterialInput = ({
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    padding: 20
-  },
-  errorText: {
-    color: 'red',
-    marginBottom: 10,
-  },
 
-  inputContainer: {
-    marginBottom: 25,
-  },
-
-  label: {
-    fontSize: 14,
-    color: colors.textSecondary,
-    marginBottom: 4,
-  },
-
-  input: {
-    fontSize: 18,
-    borderBottomWidth: 0,
-    paddingVertical: 6,
-    color: colors.text,
-  },
-
-  bar: {
-    height: 2,
-    backgroundColor: colors.branding.secondary,
-    marginTop: -2,
-  },
-  lightText: {
-    color: colors.background,
-  },
-  lightInput: {
-    color: colors.background,
-    borderBottomColor: colors.background,
-  },
-
-  lightBar: {
-    backgroundColor: colors.background,
-  },
-});

@@ -1,10 +1,11 @@
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { View, StyleSheet, Animated } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
-import { EstadoEmpleado } from "../types/Empleado";
 import { activo } from "../types/types";
-import { updateEstadoEmpleado } from "../services/empleadoService";
 import { eliminarClientePorId, updateCliente } from "../services/clienteService";
 import { UpdateFrom } from "../schemas/UpdateFrom";
+import { colors } from "../constants";
+import { modalPageStyle } from "../style/modalPageStyle";
+
 export default function ModalScreen() {
   const { nombre, id } = useLocalSearchParams<{
     nombre: string;
@@ -13,58 +14,22 @@ export default function ModalScreen() {
   const router = useRouter();
 
   const handleUpdate = async (nuevoEstado: activo) => {
-    await updateCliente(id, "", "", "", "" ,nuevoEstado);
-    
-    if (nuevoEstado == "Baja"){
+    await updateCliente(id, "", "", "", "", nuevoEstado);
+
+    if (nuevoEstado == "Baja") {
       await eliminarClientePorId(id);
     }
     router.back();
   };
 
- 
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Gestionar a {nombre}</Text>
-      <UpdateFrom id_user={id}></UpdateFrom>
-      
-{/* 
-      <Pressable
-        style={[styles.btn, { backgroundColor: "#dcfce7" }]}
-        onPress={() => handleUpdate("Activo")}
-      >
-        <Text style={styles.btnText}>🟢 Marcar como ACTIVO</Text>
-      </Pressable>
-
-      <Pressable
-        style={[styles.btn, { backgroundColor: "#fee2e2" }]}
-        onPress={() => handleUpdate("Baja")}
-      >
-        <Text style={styles.btnText}>🔴 Dar de BAJA</Text>
-      </Pressable>
-
-      
-
-      <Pressable style={{ marginTop: 20 }} onPress={() => router.back()}>
-        <Text style={{ color: "blue" }}>Cancelar</Text>
-      </Pressable> */}
+    <View style={modalPageStyle.container}>
+      <Animated.View style={[modalPageStyle.card]}>
+        <text style={modalPageStyle.title}>Gestionar a {nombre}</text>
+        <UpdateFrom id_user={id}></UpdateFrom>
+      </Animated.View>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 20,
-  },
-  title: { fontSize: 22, fontWeight: "bold", marginBottom: 30 },
-  btn: {
-    width: "100%",
-    padding: 15,
-    borderRadius: 10,
-    marginBottom: 15,
-    alignItems: "center",
-  },
-  btnText: { fontWeight: "bold", fontSize: 16, color: "#333" },
-});

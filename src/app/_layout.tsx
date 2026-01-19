@@ -1,4 +1,5 @@
-import { Stack } from 'expo-router';
+import { FontAwesome } from '@expo/vector-icons';
+import { Stack, Tabs } from 'expo-router';
 
 export default function RootLayout() {
   return (
@@ -10,22 +11,20 @@ export default function RootLayout() {
 
       <Stack.Screen
         name="perfil/[id]"
-        options={{ title: 'Detalle Empleado' }}
-      />
-
-      <Stack.Screen
-        name="perfil/crear"
-        options={{ title: 'Detalle Empleado' }}
+        options={{ title: 'Detalle cliente' }}
       />
 
       <Stack.Screen
         name="modal"
         options={{
           presentation: 'modal',
-          title: 'Actualizar Estado',
+          title: 'Actualizar datos del cliente',
         }}
       />
 
     </Stack>
+
   );
 }
+
+

@@ -11,6 +11,7 @@ import type { Empleado } from "../../types/Empleado";
 import { obtenerEmpleadoPorId } from "../../services/empleadoService";
 import { obtenerClientePorId } from "../../services/clienteService";
 import { Cliente } from "../../types/types";
+import { idPageStyle } from "../../style/idPageStyle";
 
 export default function PerfilDetalle() {
   const { id } = useLocalSearchParams<{ id?: string | string[] }>();
@@ -38,7 +39,7 @@ export default function PerfilDetalle() {
 
   if (cargando) {
     return (
-      <View style={styles.center}>
+      <View style={idPageStyle.center}>
         <ActivityIndicator color="#2563eb" />
       </View>
     );
@@ -46,39 +47,39 @@ export default function PerfilDetalle() {
 
   if (!cliente) {
     return (
-      <View style={styles.center}>
+      <View style={idPageStyle.center}>
         <Text>Cliente no encontrado</Text>
       </View>
     );
   }
 
   return (
-    <View style={styles.container}>
+    <View style={idPageStyle.container}>
       <Stack.Screen options={{ title: cliente.nombre }} />
 
-      <View style={[styles.header]}>
-        <Text style={styles.initials}>{cliente.nombre.charAt(0)}</Text>
+      <View style={[idPageStyle.header]}>
+        <Text style={idPageStyle.initials}>{cliente.nombre.charAt(0)}</Text>
       </View>
 
-      <View style={styles.body}>
-        <Text style={styles.name}>{cliente.nombre}</Text>
-        <Text style={styles.role}>
+      <View style={idPageStyle.body}>
+        <Text style={idPageStyle.name}>{cliente.nombre}</Text>
+        <Text style={idPageStyle.role}>
           {cliente.email} — {cliente.telefono} - {cliente.notas}
         </Text>
 
-        <View style={styles.divider} />
+        <View style={idPageStyle.divider} />
 
-        <Text style={styles.label}>Estado Actual</Text>
+        <Text style={idPageStyle.label}>Estado Actual</Text>
         <Text
           style={[
-            styles.value,
+            idPageStyle.value,
             { color: cliente.activo === "Activo" ? "green" : "red" },
           ]}
         >
           {cliente.activo}
         </Text>
 
-        <View style={styles.actionContainer}>
+        <View style={idPageStyle.actionContainer}>
           <Link
             href={{
               pathname: "/modal",
@@ -86,8 +87,8 @@ export default function PerfilDetalle() {
             }}
             asChild
           >
-            <Pressable style={styles.actionButton}>
-              <Text style={styles.actionText}>📝 Gestionar Estado</Text>
+            <Pressable style={idPageStyle.actionButton}>
+              <Text style={idPageStyle.actionText}>📝 Gestionar Estado</Text>
             </Pressable>
           </Link>
         </View>
@@ -96,23 +97,3 @@ export default function PerfilDetalle() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "white" },
-  center: { flex: 1, justifyContent: "center", alignItems: "center" },
-  header: { height: 150, justifyContent: "center", alignItems: "center" },
-  initials: { fontSize: 50, color: "white", fontWeight: "bold" },
-  body: { padding: 20 },
-  name: { fontSize: 24, fontWeight: "bold", color: "#1e293b" },
-  role: { fontSize: 16, color: "#64748b" },
-  divider: { height: 1, backgroundColor: "#e2e8f0", marginVertical: 20 },
-  label: { fontSize: 14, color: "#94a3b8" },
-  value: { fontSize: 16, fontWeight: "bold", marginBottom: 20 },
-  actionContainer: { marginTop: 20, alignItems: "center" },
-  actionButton: {
-    backgroundColor: "#1e293b",
-    paddingVertical: 12,
-    paddingHorizontal: 30,
-    borderRadius: 25,
-  },
-  actionText: { color: "white", fontWeight: "bold" },
-});

@@ -5,6 +5,7 @@ import { AuthFormValues, AuthSchema } from "./auth.schema";// ⬅️ Importamos 
 import { useRouter } from "expo-router";
 import React from "react";
 import { colors } from "../constants";
+import { SimpleFromStyle } from "../style/schemasStyle";
 interface SimpleFormProps {
   user_logger: boolean;
 }
@@ -56,13 +57,13 @@ const MaterialInput = ({
   secureTextEntry = false,
   keyboardType = "default",
 }: MaterialInputProps) => (
-  <View style={styles.inputContainer}>
-    <Text style={[styles.label, light && styles.lightText]}>
+  <View style={SimpleFromStyle.inputContainer}>
+    <Text style={[SimpleFromStyle.label, light && SimpleFromStyle.lightText]}>
       {label}
     </Text>
 
     <TextInput
-      style={[styles.input, light && styles.lightInput]}
+      style={[SimpleFromStyle.input, light && SimpleFromStyle.lightInput]}
       value={value}
       onChangeText={onChange}
       onBlur={onBlur}
@@ -72,7 +73,7 @@ const MaterialInput = ({
       accessibilityLabel={label}
     />
 
-    <View style={[styles.bar, light && styles.lightBar]} />
+    <View style={[SimpleFromStyle.bar, light && SimpleFromStyle.lightBar]} />
   </View>
 );
 
@@ -80,7 +81,7 @@ const MaterialInput = ({
 
 
   return (
-    <View style={styles.container}>
+    <View style={SimpleFromStyle.container}>
       {!user_logger && (
         <View>
           <Controller
@@ -98,7 +99,7 @@ const MaterialInput = ({
 
             )}
           />
-          {errors.email?.message ? <Text style={styles.errorText}>{errors.email.message}</Text> : null}
+          {errors.email?.message ? <Text style={SimpleFromStyle.errorText}>{errors.email.message}</Text> : null}
 
           <Controller
             control={control}
@@ -116,7 +117,7 @@ const MaterialInput = ({
             )}
           />
           {errors.password?.message ? (
-            <Text style={styles.errorText}>{errors.password.message}</Text>
+            <Text style={SimpleFromStyle.errorText}>{errors.password.message}</Text>
           ) : null}
         </View>
       )}
@@ -140,7 +141,7 @@ const MaterialInput = ({
 
             )}
           />
-          {errors.email?.message ? <Text style={styles.errorText}>{errors.email.message}</Text> : null}
+          {errors.email?.message ? <Text style={SimpleFromStyle.errorText}>{errors.email.message}</Text> : null}
 
           <Controller
             control={control}
@@ -159,7 +160,7 @@ const MaterialInput = ({
             )}
           />
           {errors.password?.message ? (
-            <Text style={styles.errorText}>{errors.password.message}</Text>
+            <Text style={SimpleFromStyle.errorText}>{errors.password.message}</Text>
           ) : null}
 
         </View>
@@ -171,46 +172,3 @@ const MaterialInput = ({
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    padding: 20
-  },
-  errorText: {
-    color: 'red',
-    marginBottom: 10,
-  },
-
-  inputContainer: {
-    marginBottom: 25,
-  },
-
-  label: {
-    fontSize: 14,
-    color: colors.textSecondary,
-    marginBottom: 4,
-  },
-
-  input: {
-    fontSize: 18,
-    borderBottomWidth: 0,
-    paddingVertical: 6,
-    color: colors.text,
-  },
-
-  bar: {
-    height: 2,
-    backgroundColor: colors.branding.secondary,
-    marginTop: -2,
-  },
-  lightText: {
-    color: colors.background,
-  },
-  lightInput: {
-    color: colors.background,
-    borderBottomColor: colors.background,
-  },
-
-  lightBar: {
-    backgroundColor: colors.background,
-  },
-});
