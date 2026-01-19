@@ -2,23 +2,21 @@ import React from "react";
 import {
   View,
   TextInput,
-  Button,
   Alert,
   Text,
-  StyleSheet,
   Pressable,
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AuthFormValues, AuthSchema } from "./auth.schema";
 import { useRouter } from "expo-router";
-import { colors } from "../constants";
 import {
   eliminarClientePorId,
   updateCliente,
 } from "../services/clienteService";
 import { activo } from "../types/types";
 import { updateFromStyle } from "../style/schemasStyle";
+
 interface UpdateClientFormProps {
   id_user: string;
 }
@@ -44,8 +42,6 @@ export function UpdateFrom({ id_user }: UpdateClientFormProps) {
   const submitWithEstado = (estado: activo) =>
     handleSubmit(async (data) => {
       try {
-        console.log("boton actualizar");
-
         await updateCliente(
           id_user,
           data.nameUser ?? "",
@@ -58,8 +54,6 @@ export function UpdateFrom({ id_user }: UpdateClientFormProps) {
         if (estado === "Baja") {
           await eliminarClientePorId(id_user);
         }
-
-        // router.back();
         router.replace('/(tabs)/equipo');
       } catch (error) {
         console.error(error);
@@ -167,26 +161,28 @@ export function UpdateFrom({ id_user }: UpdateClientFormProps) {
       />
 
       {/* ---------- ACCIONES ---------- */}
-      <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 15 }}>
+      <View style={updateFromStyle.buttonState}>
         <Pressable
-          style={[updateFromStyle.btn, { backgroundColor: "#dcfce7" }]}
+          style={[updateFromStyle.btn, updateFromStyle.aceptar]}
           onPress={submitWithEstado("Activo")}
         >
           <Text style={updateFromStyle.btnText}>🟢 Actualizar datos</Text>
         </Pressable>
 
         <Pressable
-          style={[updateFromStyle.btn, { backgroundColor: "#fee2e2" }]}
+          style={[updateFromStyle.btn, updateFromStyle.eliminar]}
           onPress={submitWithEstado("Baja")}
         >
           <Text style={updateFromStyle.btnText}>🔴 Eliminar cliente</Text>
         </Pressable>
       </View>
 
+      <View style={updateFromStyle.buttonEleccion}>
+        <Pressable style={[updateFromStyle.btn, updateFromStyle.cancelar]} onPress={() => router.back()}>
+          <Text style={updateFromStyle.btnText}>Cancelar</Text>
+        </Pressable>
+      </View>
 
-      <Pressable style={[updateFromStyle.btn, { backgroundColor: "#fee2e2a1" }]} onPress={() => router.back()}>
-        <Text style={updateFromStyle.btnText}>Cancelar</Text>
-      </Pressable>
     </View>
   );
 }

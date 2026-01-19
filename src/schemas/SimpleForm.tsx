@@ -1,10 +1,9 @@
-import { View, TextInput, Button, Alert, Text, StyleSheet } from "react-native";
+import { View, TextInput, Button, Alert, Text } from "react-native";
 import { useForm, Controller } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod"; // ⬅️ Importamos el resolver
-import { AuthFormValues, AuthSchema } from "./auth.schema";// ⬅️ Importamos el esquema y el tipo
+import { zodResolver } from "@hookform/resolvers/zod"; 
+import { AuthFormValues, AuthSchema } from "./auth.schema";
 import { useRouter } from "expo-router";
 import React from "react";
-import { colors } from "../constants";
 import { SimpleFromStyle } from "../style/schemasStyle";
 interface SimpleFormProps {
   user_logger: boolean;
@@ -17,26 +16,22 @@ export function SimpleForm({ user_logger }: SimpleFormProps) {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<AuthFormValues>({ // Usamos el tipo extraído de Zod
-    // Clave de la integración: Pasamos el esquema Zod al resolver
+  } = useForm<AuthFormValues>({
     resolver: zodResolver(AuthSchema),
     defaultValues: {
       email: "",
       password: "",
     },
-    mode: "onBlur", // Modo de validación
+    mode: "onBlur", 
     shouldUnregister: true,
   });
 
   const onSubmit = (data: AuthFormValues) => {
-    // Si llegamos aquí, ¡los datos ya han pasado TODAS las validaciones de Zod!
     Alert.alert("Formulario enviado", `Email: ${data.email} | Contraseña: ${data.password}`);
     router.replace('/(tabs)/equipo');
   };
 
   /* ---------- COMPONENTS ---------- */
-
- 
 
   interface MaterialInputProps {
   label: string;
@@ -87,7 +82,6 @@ const MaterialInput = ({
           <Controller
             control={control}
             name="email"
-            // ❌ ¡Quitamos las rules! Zod las gestiona.
             render={({ field: { value, onChange, onBlur } }) => (
               <MaterialInput
                 label="Email"
@@ -104,7 +98,6 @@ const MaterialInput = ({
           <Controller
             control={control}
             name="password"
-            // ❌ ¡Quitamos las rules! Zod las gestiona.
             render={({ field: { value, onChange, onBlur } }) => (
               <MaterialInput
                 label="Password"
@@ -127,7 +120,6 @@ const MaterialInput = ({
           <Controller
             control={control}
             name="email"
-            // ❌ ¡Quitamos las rules! Zod las gestiona.
             render={({ field: { value, onChange, onBlur } }) => (
 
               <MaterialInput
@@ -146,7 +138,6 @@ const MaterialInput = ({
           <Controller
             control={control}
             name="password"
-            // ❌ ¡Quitamos las rules! Zod las gestiona.
             render={({ field: { value, onChange, onBlur } }) => (
               <MaterialInput
                 label="Password"

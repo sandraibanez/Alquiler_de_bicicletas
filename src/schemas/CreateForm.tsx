@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { AuthFormValues, AuthSchema } from "./auth.schema";
 import { useRouter } from "expo-router";
 import React from "react";
-import { colors } from "../constants";
 import { CreateCliente } from "../services/clienteService";
 import { createFromStyle } from "../style/schemasStyle";
 
@@ -73,9 +72,6 @@ const MaterialInput = ({
     <View style={[createFromStyle.bar, light && createFromStyle.lightBar]} />
   </View>
 );
-
-
-
 
   return (
     <View style={createFromStyle.container}>
